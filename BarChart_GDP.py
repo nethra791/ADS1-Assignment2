@@ -33,7 +33,6 @@ def plot_gdp(data):
     ax.set_xticks([
     i + (len(years) - 1) * bar_width / 2 for i in range(len(countries))
 ])
-
     ax.set_xticklabels(countries)
 
     # Move legend outside the plot area
@@ -42,7 +41,10 @@ def plot_gdp(data):
     plt.show()
 
     # Extract values for descriptive statistics
-    values_array = np.array([data[country][year] for year in years for country in countries])
+    values_array = np.array([
+    data[country][year] for year in years for country in countries
+])
+
 
     # Descriptive statistics using NumPy
     print("Descriptive Statistics:")
@@ -54,7 +56,9 @@ def plot_gdp(data):
 
 # Read data from CSV
 file_path = 'GDP.csv'
-gdp_data = pd.read_csv(file_path, index_col='Country Name').to_dict(orient='index')
+gdp_data = pd.read_csv(file_path, index_col='Country Name') \
+              .to_dict(orient='index')
+
 
 # Plotting the data with a larger figure size and adjusted legend position
 plot_gdp(gdp_data)
