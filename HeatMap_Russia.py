@@ -6,7 +6,8 @@ from scipy.stats import skew, kurtosis
 
 def plot_heatmap(file_path, indicators):
     """
-    Generate a correlation heatmap and display statistical results for given indicators.
+    Generate a correlation heatmap and display 
+    statistical results for given indicators.
 
     Parameters:
     - file_path (str): Path to the CSV file containing the data.
@@ -30,7 +31,7 @@ def plot_heatmap(file_path, indicators):
     mean_indicators = np.mean(indicators_data[indicators], axis=0)
     std_indicators = np.std(indicators_data[indicators], axis=0)
 
-    # Calculate skewness and kurtosis for each indicator using SciPy's functions
+    # Calculate skewness and kurtosis for indicators using SciPy's functions
     skewness_indicators = skew(indicators_data[indicators], axis=0)
     kurtosis_indicators = kurtosis(indicators_data[indicators], axis=0)
 
@@ -44,7 +45,8 @@ def plot_heatmap(file_path, indicators):
 
     # Plot the heatmap
     plt.figure(figsize=(10, 8))
-    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=.5)
+    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm',
+               fmt=".2f", linewidths=.5)
     plt.title('Correlation Heatmap for Russia')
     plt.show()
 
@@ -52,7 +54,8 @@ def plot_heatmap(file_path, indicators):
 file_path = 'RussiaData.csv'
 
 # Specifying the indicators of interest
-selected_indicators = ['Health Expenditure', 'Education Expenditure', 'GDP Growth', 'CO2 Emissions', 'Unemployment Rate', 'Internate Usage']
+selected_indicators = ['Health Expenditure', 'Education Expenditure', 
+'GDP Growth', 'CO2 Emissions', 'Unemployment Rate', 'Internate Usage']
 
 # Call the function to generate the heatmap and display statistical results
 plot_heatmap(file_path, selected_indicators)
