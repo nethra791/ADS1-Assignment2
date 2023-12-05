@@ -15,9 +15,9 @@ def plot_unemp(data):
     countries = list(data.keys())
     years = list(data[countries[0]].keys())
 
-    bar_width = 0.1  # Adjust this value to make bars thinner or thicker
+    bar_width = 0.1  # Value to set the width of the bar
 	
-     # Adjust the figure size as needed
+     # Setting the plot size
     fig, ax = plt.subplots(figsize=(10, 6))  
 
     for i, year in enumerate(years):
