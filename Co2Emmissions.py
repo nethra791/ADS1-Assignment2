@@ -3,31 +3,51 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import kurtosis, skew
 
-def plot_line(path_to_file):
+def read_and_process_data(path_to_file):
     """
-    Generate a line plot representing CO2 Emissions from 2000 to 2020 for different countries.
+    Read a dataframe in World-bank format and return two dataframes: 
+    one with years as columns and one with countries as columns.
 
     Parameters:
     - path_to_file (str): The path to the CSV file containing the dataset.
 
     Returns:
-    None
+    - df_years (pd.DataFrame): Dataframe with years as columns.
+    - df_countries (pd.DataFrame): Dataframe with countries as columns.
     """
     # Load the dataset from the CSV file
     data = pd.read_csv(path_to_file)
 
-    # Getting the data of country codes and years
-    # Fetched the country codes from the CSV
-    country_codes = data['Country Name']
-    # The columns of years start from the 3rd column.
-    years = data.columns[1:]
+    # Extracting the country names and years
+    country_names = data['Country Name']
+    years = data.columns[2:]
 
+    # Creating a dataframe with years as columns
+    df_years = data.copy()
+    df_years = df_years.set_index('Country Name')[years].T
+
+    # Creating a dataframe with countries as columns
+    df_countries = data.set_index('Country Name') \
+                 .drop(columns=['Country Code'], errors='ignore').T
+
+    return df_years, df_countries
+
+def plot_line(df_years):
+    """
+    Generate a line plot representing CO2 Emissions 
+    from 2000 to 2020 for different countries.
+
+    Parameters:
+    - df_years (pd.DataFrame): Dataframe with years as columns.
+
+    Returns:
+    None
+    """
     # Create a line plot with multiple lines based on the number of countries
     plt.figure(figsize=(10, 6))
-    for idx in range(len(country_codes)):
-        # The data of years starts from column 3.
-        plt.plot(years, data.iloc[idx, 1:], label=country_codes[idx])
- 
+    for country in df_years.columns:
+        plt.plot(df_years.index, df_years[country], label=country)
+
     # Adding plot title and axis labels to append to the graphs.
     plt.title('CO2 Emissions from 2000 to 2020')
     plt.xlabel('Years')
@@ -41,19 +61,25 @@ def plot_line(path_to_file):
 
     # Statistical Analysis using NumPy and SciPy
     # Calculate mean and standard deviation
-    mean_yield = np.mean(data.iloc[:, 1:], axis=0)
-    std_yield = np.std(data.iloc[:, 1:], axis=0)
+    mean_yield = np.mean(df_years, axis=0)
+    std_yield = np.std(df_years, axis=0)
 
-    # Calculate skewness and kurtosis using SciPy's skewness and kurtosis functions
-    skewness_yield = skew(data.iloc[:, 1:], axis=1)
-    kurtosis_yield = kurtosis(data.iloc[:, 1:], axis=1)
+    # Calculate skewness and kurtosis using SciPy
+    skewness_yield = skew(df_years, axis=0)
+    kurtosis_yield = kurtosis(df_years, axis=0)
 
     # Print the statistical results
-    print("Mean of CO2 Emissions: ", mean_yield)
-    print("Standard Deviation of CO2 Emissions: ", std_yield)
-    print("Skewness of CO2 Emissions: ", skewness_yield)
-    print("Kurtosis of CO2 Emissions: ", kurtosis_yield)
+    print("Mean of CO2 Emissions:\n", mean_yield)
+    print("\nStandard Deviation of CO2 Emissions:\n", std_yield)
+    print("\nSkewness of CO2 Emissions:\n", skewness_yield)
+    print("\nKurtosis of CO2 Emissions:\n", kurtosis_yield)
 
-# Calling the function to generate the Line Plot
+    # Additional summary statistics using Pandas describe
+    print("\nSummary Statistics:\n", df_years.describe())
+
+# Calling the function to read and process the data
 path_to_file = 'CO2Emissions.csv'
-plot_line(path_to_file)
+df_years, df_countries = read_and_process_data(path_to_file)
+
+# Calling to generate Line Plot and performing statistical analysis
+plot_line(df_years)
