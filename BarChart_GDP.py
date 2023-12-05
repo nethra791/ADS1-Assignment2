@@ -8,7 +8,7 @@ def plot_gdp(data):
     Plot the GDP Growth rate over the years for different countries.
 
     Parameters:
-    - data (dict): Dictionary containing urbanization rate 
+    - data (dict): Dictionary containing GDP growth rate 
 	data for different countries and years.
     """
 
@@ -23,14 +23,17 @@ def plot_gdp(data):
     for i, year in enumerate(years):
         values = [data[country][year] for country in countries]
         # Offset the bars for each year to avoid overlap
-        ax.bar([x + i * bar_width for x in range(len(countries))], values, width=bar_width, label=year)
-
+        ax.bar([x + i * bar_width for x in range(len(countries))],
+       values, width=bar_width, label=year)
     ax.set_xlabel('Countries')
     ax.set_ylabel('GDP growth (annual %)')
-    ax.set_title('GDP growth (annual %) Over the Years for Different Countries')
+    ax.set_title('GDP growth Over the Years for Different Countries')
 
     # Center the x-ticks under each group of bars
-    ax.set_xticks([i + (len(years) - 1) * bar_width / 2 for i in range(len(countries))])
+    ax.set_xticks([
+    i + (len(years) - 1) * bar_width / 2 for i in range(len(countries))
+])
+
     ax.set_xticklabels(countries)
 
     # Move legend outside the plot area
