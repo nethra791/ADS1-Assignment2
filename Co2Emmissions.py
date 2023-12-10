@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import kurtosis, skew
 
-def read_and_process_data(path_to_file):
+
+def read_file(path_to_file):
+    
     """
     Read a dataframe in World-bank format and return two dataframes: 
     one with years as columns and one with countries as columns.
@@ -12,25 +14,24 @@ def read_and_process_data(path_to_file):
     - path_to_file (str): The path to the CSV file containing the dataset.
 
     Returns:
-    - df_years (pd.DataFrame): Dataframe with years as columns.
-    - df_countries (pd.DataFrame): Dataframe with countries as columns.
+    - df_y(pd.DataFrame): Dataframe with years as columns.
+    - df_c(pd.DataFrame): Dataframe with countries as columns.
     """
-    # Load the dataset from the CSV file
+    # Load the dataset
     data = pd.read_csv(path_to_file)
 
     # Extracting the country names and years
-    country_names = data['Country Name']
     years = data.columns[2:]
 
     # Creating a dataframe with years as columns
-    df_years = data.copy()
-    df_years = df_years.set_index('Country Name')[years].T
+    df_y = data.copy()
+    df_y = df_y.set_index('Country Name')[years].T
 
     # Creating a dataframe with countries as columns
-    df_countries = data.set_index('Country Name') \
+    df_c = data.set_index('Country Name') \
                  .drop(columns=['Country Code'], errors='ignore').T
 
-    return df_years, df_countries
+    return df_y, df_c
 
 def plot_line(df_years):
     """
@@ -43,24 +44,23 @@ def plot_line(df_years):
     Returns:
     None
     """
-    # Create a line plot with multiple lines based on the number of countries
+    # Create a line plot
     plt.figure(figsize=(10, 6))
     for country in df_years.columns:
         plt.plot(df_years.index, df_years[country], label=country)
 
-    # Adding plot title and axis labels to append to the graphs.
+    # Adding plot title and axis labels
     plt.title('CO2 Emissions from 2000 to 2020')
     plt.xlabel('Years')
     plt.ylabel('CO2 emissions (metric tons per capita)')
 
-    # Adding legend to the map countrywide
-    plt.legend()
+    # Adding legend
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
     # Display the plot after generating
     plt.show()
 
     # Statistical Analysis using NumPy and SciPy
-    # Calculate mean and standard deviation
     mean_yield = np.mean(df_years, axis=0)
     std_yield = np.std(df_years, axis=0)
 
@@ -79,7 +79,7 @@ def plot_line(df_years):
 
 # Calling the function to read and process the data
 path_to_file = 'CO2Emissions.csv'
-df_years, df_countries = read_and_process_data(path_to_file)
+df_y, df_c = read_file(path_to_file)
 
-# Calling to generate Line Plot and performing statistical analysis
-plot_line(df_years)
+# Calling to generate Line Plot
+plot_line(df_y)
