@@ -55,6 +55,7 @@ def plot_line(data_c):
     print("Skewness of Internet Usage: ", skewness_yield)
     print("Kurtosis of Internet Usage: ", kurtosis_yield)
 
+
 # Calling the function to process the data
 path_to_file = 'InternetUsage.csv'
 data_y, data_c = read_data(path_to_file)
