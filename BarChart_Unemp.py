@@ -65,6 +65,7 @@ def plot_unemp(data):
     print(pd.DataFrame(val).describe())
     print("\nSkewness:", skew(val))
     print("Kurtosis:", kurtosis(val))
+    
 
 # Calling functions to create plot
 filename = 'Unemployment.csv'
