@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import skew, kurtosis
 
+
 def plot_heatmap(file_path, indicators):
     """
     Generate a correlation heatmap and display 
