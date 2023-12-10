@@ -33,21 +33,22 @@ def read_file(path_to_file):
 
     return df_y, df_c
 
-def plot_line(df_years):
+
+def plot_line(df_y):
     """
     Generate a line plot representing CO2 Emissions 
     from 2000 to 2020 for different countries.
 
     Parameters:
-    - df_years (pd.DataFrame): Dataframe with years as columns.
+    - df_y (pd.DataFrame): Dataframe with years as columns.
 
     Returns:
     None
     """
     # Create a line plot
     plt.figure(figsize=(10, 6))
-    for country in df_years.columns:
-        plt.plot(df_years.index, df_years[country], label=country)
+    for country in df_y.columns:
+        plt.plot(df_y.index, df_y[country], label=country)
 
     # Adding plot title and axis labels
     plt.title('CO2 Emissions from 2000 to 2020')
@@ -57,16 +58,16 @@ def plot_line(df_years):
     # Adding legend
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
-    # Display the plot after generating
+    # Display the plot
     plt.show()
 
     # Statistical Analysis using NumPy and SciPy
-    mean_yield = np.mean(df_years, axis=0)
-    std_yield = np.std(df_years, axis=0)
+    mean_yield = np.mean(df_y, axis=0)
+    std_yield = np.std(df_y, axis=0)
 
     # Calculate skewness and kurtosis using SciPy
-    skewness_yield = skew(df_years, axis=0)
-    kurtosis_yield = kurtosis(df_years, axis=0)
+    skewness_yield = skew(df_y, axis=0)
+    kurtosis_yield = kurtosis(df_y, axis=0)
 
     # Print the statistical results
     print("Mean of CO2 Emissions:\n", mean_yield)
@@ -74,8 +75,9 @@ def plot_line(df_years):
     print("\nSkewness of CO2 Emissions:\n", skewness_yield)
     print("\nKurtosis of CO2 Emissions:\n", kurtosis_yield)
 
-    # Additional summary statistics using Pandas describe
-    print("\nSummary Statistics:\n", df_years.describe())
+    # summary statistics using Pandas describe()
+    print("\nSummary Statistics:\n", df_y.describe())
+    
 
 # Calling the function to read and process the data
 path_to_file = 'CO2Emissions.csv'
